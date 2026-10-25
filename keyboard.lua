@@ -3,7 +3,7 @@
 hl.config({
     input = {
         -- Agregamos us (inglés) junto a latam
-        kb_layout = "latam, us",
+        kb_layout = "latam,us",
         -- OPCIONAL: Si tu teclado en inglés tiene variantes (como intl) ponlo así:
         -- kb_variant = ,intl
         follow_mouse = 1,

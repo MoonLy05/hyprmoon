@@ -3,9 +3,10 @@
 # Variable para recordar si ya te avisamos (evita spam)
 NOTIFIED=0
 
+# 1. Detectar automáticamente cuál es tu batería
+BAT=$(ls /sys/class/power_supply/ | grep BAT | head -n 1)
+
 while true; do
-    # 1. Detectar automáticamente cuál es tu batería
-    BAT=$(ls /sys/class/power_supply/ | grep BAT | head -n 1)
 
     # 2. Obtener datos actuales
     CAPACITY=$(cat /sys/class/power_supply/$BAT/capacity)
