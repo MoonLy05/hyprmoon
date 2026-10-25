@@ -35,9 +35,9 @@ send_notification() {
 
     # -h string:x-canonical-private-synchronous:$TAG -> se actualiza en lugar de acumularse
     # -h int:value:$VALUE -> valor para la barra de progreso de SwayNC
-    notify-send -e string:x-canonical-private-synchronous:"$TAG" \
+    notify-send -h string:x-canonical-private-synchronous:"$TAG" \
         -h int:value:"$VALUE" \
-        -u low \
+        -e \
         -i "$ICON" \
         "$TEXT" \
         "Nivel: $VALUE%"
@@ -61,18 +61,18 @@ case $1 in
         pamixer -t
         MUTE=$(pamixer --get-mute)
         if [ "$MUTE" == "true" ]; then
-            notify-send -h string:x-canonical-private-synchronous:"$TAG" -u low -i "audio-volume-muted" "Silencio" "Audio desactivado"
+            notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "audio-volume-muted" "Silencio" "Audio desactivado"
         else
-            notify-send -h string:x-canonical-private-synchronous:"$TAG" -u low -i "audio-volume-high" "Sonido" "Audio activado"
+            notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "audio-volume-high" "Sonido" "Audio activado"
         fi
         ;;
     mic_mute)
         pamixer --default-source -t
         MUTE=$(pamixer --default-source --get-mute)
         if [ "$MUTE" == "true" ]; then
-            notify-send -h string:x-canonical-private-synchronous:"$TAG" -u low -i "microphone-sensitivity-muted" "Micrófono" "Desactivado"
+            notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "microphone-sensitivity-muted" "Micrófono" "Desactivado"
         else
-            notify-send -h string:x-canonical-private-synchronous:"$TAG" -u low -i "microphone-sensitivity-high" "Micrófono" "Activado"
+            notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "microphone-sensitivity-high" "Micrófono" "Activado"
         fi
         ;;
     # --- BRILLO ---
