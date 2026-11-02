@@ -44,7 +44,7 @@ hl.bind(vars.mainMod .. " + P", hl.dsp.exec_cmd("grim ~/captura_lock.png && noti
 
 hl.bind(vars.mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("blueman-manager"))
 
-hl.bind(vars.mainMod .. " + SPACE", hl.dsp.exec_cmd(vars.scripts .. "/kb_change.sh"))
+hl.bind(vars.mainMod .. " + SPACE", hl.dsp.exec_cmd(vars.scripts .. "/kb_change.sh"), { locked = true})
 
 hl.bind(vars.mainMod .. " + A", hl.dsp.exec_cmd(vars.swaync .. " -t"))
 

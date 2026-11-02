@@ -21,15 +21,15 @@ end
 -- =============================================================================
 hl.config({
     general = {
-        gaps_in = 3,
-        gaps_out = 3,
+        gaps_in = 7,
+        gaps_out = 7,
         border_size = 3,
         col = {
             active_border   = { colors = { matugen.primary, matugen.secondary }, angle = 45 },
             inactive_border = matugen.inactive,
         },
         layout = "master",
-        allow_tearing = false, -- solo aplica a ventanas con la regla immediate
+        allow_tearing = false,
         snap = {
             enabled = true,
             window_gap = 10,
@@ -44,18 +44,20 @@ hl.config({
 -- =============================================================================
 hl.config({
     decoration = {
-        rounding = 10,
-        rounding_power = 2.0, -- 2.0 = circular clásico, >2 = más squircle
+        rounding = 5,
+        rounding_power = 3.0,
         active_opacity = 1.0,
         inactive_opacity = 0.9,
         blur = {
             enabled = true,
             size = 5,
-            passes = 1,
-            vibrancy = 0.1,
+            passes = 2,
+            vibrancy = 0.3,
         },
         shadow = {
-            enabled = false,
+            enabled = true,
+            range = 12,
+            render_power = 2,
         },
     },
 })

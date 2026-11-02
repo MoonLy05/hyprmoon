@@ -14,7 +14,7 @@ local swaync = "swaync-client"
 
 local monitor_main = "desc:China Star Optoelectronics Technology Co. Ltd MNG007QX2-1"
 
-local monitor_expand = "desc:ASUSTek COMPUTER INC XG279CNS T7LMQV062777" 
+local monitor_expand = "desc:ASUSTek COMPUTER INC XG279CNS T7LMQV062777"
 
 return {
     mainMod = mainMod,
