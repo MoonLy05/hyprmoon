@@ -29,7 +29,7 @@ hl.config({
             inactive_border = matugen.inactive,
         },
         layout = "master",
-        allow_tearing = true, -- solo aplica a ventanas con la regla immediate
+        allow_tearing = false, -- solo aplica a ventanas con la regla immediate
         snap = {
             enabled = true,
             window_gap = 10,
@@ -51,8 +51,8 @@ hl.config({
         blur = {
             enabled = true,
             size = 5,
-            passes = 2,
-            vibrancy = 0.1696,
+            passes = 1,
+            vibrancy = 0.1,
         },
         shadow = {
             enabled = false,
@@ -107,4 +107,14 @@ hl.config({
         mfact = 0.65,
         orientation = "left"
     },
+})
+
+-- =============================================================================
+-- RENDER
+-- =============================================================================
+
+hl.config({
+    render = {
+        direct_scanout = 0
+    }
 })

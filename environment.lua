@@ -1,5 +1,9 @@
 ---@module 'hl'
 
+local vars = require("vars")
+
+hl.env("MONITOR_LAP", vars.monitor_main)
+
 local function modo_dgpu()
     local f = io.open("/sys/class/backlight/intel_backlight/brightness")
     if f then

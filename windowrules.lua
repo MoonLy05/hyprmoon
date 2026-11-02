@@ -26,6 +26,7 @@ local table_float = {
     { class = "^(brave-browser)$", title = "(Inicia sesión: Cuentas de Google - Brave)", size = { 600, 400 } },
     { class = "^(brave-browser)$", title = "(Sign in to Your Epic Games account | Epic Games - Brave)", size = { 600, 400 } },
     { class = "^(lunarclient)$",                              title = "(Mission Control - Lunar Client)",                          size = { 600, 400 } },
+    { class = "^(org.xodusgaming.nexus)", size = {800, 600}},
 
     -- Steam: todas sus ventanas flotan (la principal se tilea en table_noFloat)
     { class = "^(steam)$" },
@@ -60,8 +61,9 @@ end
 local function gamemode(class, title)
     hl.window_rule({
         match = { class = class, title = title },
-        immediate = true,
+        -- (Desactivado por freezeos en algunos juegos 0.57 Hyprland) immediate = true,
         fullscreen = true,
+        monitor = "desc:ASUSTek COMPUTER INC XG279CNS T7LMQV062777"
     })
 end
 

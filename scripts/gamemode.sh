@@ -22,7 +22,11 @@ activar() {
         general = { gaps_in = 0, gaps_out = 0, border_size = 0 },
     })'
 
-    hyprctl eval 'hl.monitor({ output = "desc:China Star Optoelectronics Technology Co. Ltd MNG007QX2-1", mode = "preferred", position = "2920x0", scale = 1.2 })'
+    if [ "$MONITOR_LAP" == "" ]; then
+        notify-send -e "Monitor de laptop no configurado (environment.lua)" -i video-display
+    else
+        hyprctl eval "hl.monitor({ output = \"$MONITOR_LAP\", mode = \"preferred\", position = \"2920x0\", scale = 1.2 })"
+    fi
 
     # Potencia máxima
     set_cpu_mode "performance"
