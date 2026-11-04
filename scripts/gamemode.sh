@@ -33,8 +33,8 @@ activar() {
 
     # Matar la barra
     killall waybar
-
-    (notify-send -e "GAMEMODE ON" "🔥 MODO JUEGO: Potencia al máximo." -i video-display; sleep 2; swaync-client -dn)&
+ 
+    (notify-send -e "GAMEMODE ON" "🔥 MODO JUEGO: Potencia al máximo." -i video-display; sleep 2; [ -f "$GAMEMODE_FILE" ] && swaync-client -dn) &
 }
 
 desactivar() {

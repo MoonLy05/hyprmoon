@@ -2,7 +2,7 @@
 
 hl.config({
     input = {
-        kb_layout = "latam,us",
+        kb_layout = "us,latam",
         follow_mouse = 1,
         touchpad = {
             natural_scroll = true,
@@ -14,9 +14,3 @@ hl.config({
         sensitivity = 0,
     },
 })
-
-hl.device({
-  name = "wacom-co.-ltd.-wacom-intuos-pro-s",
-  enabled = false,
-})
-

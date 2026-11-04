@@ -39,8 +39,3 @@ hl.env("HYPRCURSOR_SIZE", 24)
 
 -- --- APPS ---
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
-
--- --- NVIDIA (solo con MUX en dGPU) ---
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("GBM_BACKEND", "nvidia-drm")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")

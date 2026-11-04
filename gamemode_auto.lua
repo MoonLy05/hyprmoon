@@ -6,7 +6,7 @@ local vars = require("vars")
 -- ¿Esta ventana es uno de mis juegos?
 local function es_juego(w)
     for _, game in ipairs(table_games) do
-        if string.match(w.class, game.class) then
+        if string.match(w.class, game.class) and (game.title == nil or string.match(w.title or "", game.title)) then
             return true -- Regresamos verdadero
         end
     end

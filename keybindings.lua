@@ -17,7 +17,7 @@ hl.bind(vars.mainMod .. " + D", hl.dsp.exec_cmd(vars.menu))
 
 hl.bind("ALT + Tab", hl.dsp.exec_cmd(vars.scripts .. "/window_switcher.sh"))
 
-hl.bind(vars.mainMod .. " + V", hl.dsp.exec_cmd("cliphist list | " .. vars.menu .. " --dmenu -p ' Portapapeles > ' -w 50 | cliphist decode | wl-copy"))
+hl.bind(vars.mainMod .. " + V", hl.dsp.exec_cmd(vars.scripts .. "/clipboard.sh"))
 
 hl.bind(vars.mainMod .. " + SHIFT + V",
     hl.dsp.exec_cmd(
@@ -32,7 +32,7 @@ hl.bind(vars.mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(vars.scripts .. "/screen
 
 hl.bind("Print", hl.dsp.exec_cmd(vars.scripts .. "/screenshot_gui.sh"))
 
-hl.bind("CONTROL + U", hl.dsp.exec_cmd(vars.scripts_waybar .. "/updates.sh update"))
+hl.bind(vars.mainMod .. " + CONTROL + U", hl.dsp.exec_cmd(vars.scripts_waybar .. "/updates.sh update"))
 
 hl.bind(vars.mainMod .. " + SHIFT + L", hl.dsp.exec_cmd(vars.scripts .. "/lock.sh"))
 
@@ -40,11 +40,9 @@ hl.bind(vars.mainMod .. " + N", hl.dsp.window.move({ workspace = "special:minimi
 
 hl.bind(vars.mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(vars.scripts .. "/minimize.sh restore"))
 
-hl.bind(vars.mainMod .. " + P", hl.dsp.exec_cmd("grim ~/captura_lock.png && notify-send \"Captura de pantalla\" \"Guardada como captura_lock.png\" -i image-missing"), { locked = true })
-
 hl.bind(vars.mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("blueman-manager"))
 
-hl.bind(vars.mainMod .. " + SPACE", hl.dsp.exec_cmd(vars.scripts .. "/kb_change.sh"), { locked = true})
+hl.bind(vars.mainMod .. " + SPACE", hl.dsp.exec_cmd(vars.scripts .. "/kb_change.sh"), { locked = true })
 
 hl.bind(vars.mainMod .. " + A", hl.dsp.exec_cmd(vars.swaync .. " -t"))
 
@@ -70,7 +68,7 @@ hl.bind(vars.mainMod .. " + CTRL + S", hl.dsp.exec_cmd("pavucontrol"))
 
 hl.bind(vars.mainMod .. " + Q", hl.dsp.window.close())
 
-hl.bind(vars.mainMod .. " + M", hl.dsp.exit())
+hl.bind(vars.mainMod .. " + SHIFT + M", hl.dsp.exit())
 
 hl.bind(vars.mainMod .. " + F", hl.dsp.window.fullscreen())
 

@@ -6,8 +6,8 @@ mkdir -p "$DIR"
 NAME="$(date +'%Y-%m-%d_%H-%M-%S.png')"
 FILE="$DIR/$NAME"
 
-if ! command -v hyprshot >/dev/null 2>&1; then
-    notify-send -e "Error" "hyprshot no está instalado"
+if ! command -v slurp >/dev/null 2>&1; then
+    notify-send -e "Error" "slurp no está instalado"
     exit 1
 fi
 
@@ -48,13 +48,23 @@ set_anims() {
     hyprctl eval "hl.config({ animations = { enabled = $1 } })" >/dev/null 2>&1
 }
 
+restore_anims() {
+    if [ -f /tmp/hypr_gamemode_active ]; then
+        set_anims false
+    else
+        set_anims true
+    fi
+}
+
 countdown() {
     for i in 3 2 1; do
         notify_cmd "Captura en $i..." "Prepara la pose"
         sleep 1
     done
     notify_cmd "Sonrían..." " "
-    sleep 1
+    sleep 2
+    swaync-client --close-latest
+    sleep 0.3
 }
 
 open_in_pinta() {
@@ -85,42 +95,23 @@ capture_success() {
     fi
 }
 
-take_shot() {
-    set_anims false
-    hyprshot -o "$DIR" -f "$NAME" -s "$@"
-    local rc=$?
-    set_anims true
-
-    if [ "$rc" -eq 0 ]; then
-        capture_success
-    fi
-    return "$rc"
-}
-
 take_full() {
+    local monitor
+    monitor=$(hyprctl activeworkspace -j | jq -r '.monitor')
     # grim como método principal para captura completa
     set_anims false
-    if grim "$FILE"; then
-        set_anims true
+    if grim -o "$monitor" "$FILE"; then
+        restore_anims
         capture_success
         return 0
     fi
-    set_anims true
-
-    # Fallback a hyprshot si grim falla
-    if take_shot -m active -m output || take_shot -m output; then
-        return 0
-    fi
+    restore_anims
 
     notify-send -u critical "Captura fallida" "No se pudo capturar pantalla completa"
     return 1
 }
 
 take_window_active() {
-    if take_shot -m window -m active || take_shot -m active -m window; then
-        return 0
-    fi
-
     if command -v jq >/dev/null 2>&1; then
         local geom
         geom=$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
@@ -136,6 +127,28 @@ take_window_active() {
     return 1
 }
 
+take_area() {
+    local geom
+
+    set_anims false
+    geom=$(slurp)                  # 1. pedir el área
+
+    if [ -z "$geom" ]; then             # 2. ¿cancelaste? (la variable quedó vacía)
+        restore_anims
+        return 1
+    fi
+
+    if grim -g "$geom" "$FILE"; then # 3. capturar esa área
+        restore_anims
+        capture_success
+        return 0
+    fi
+
+    restore_anims
+    notify-send -u critical "Captura fallida" "No se pudo capturar el área"
+    return 1
+}
+
 # --- LÓGICA ---
 case $chosen in
     "$opt_full")
@@ -144,7 +157,7 @@ case $chosen in
         ;;
     "$opt_area")
         sleep 0.6 
-        take_shot -m region -z || notify-send -u critical "Captura fallida" "No se pudo capturar el área"
+        take_area
         ;;
     "$opt_win")
         sleep 0.6

@@ -21,7 +21,7 @@ elif [ "$1" == "restore" ]; then
 
     # Si no hay ventanas, salir
     if [ ${#ADDRS[@]} -eq 0 ]; then
-        notify-send -u low "Bolsillo Vacío" "No hay apps minimizadas"
+        notify-send -e "Bolsillo Vacío" "No hay apps minimizadas"
         exit 0
     fi
 

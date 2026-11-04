@@ -4,4 +4,6 @@
 
 #Files
 
-.style/colors-matugen.lua
+style/colors-matugen.lua
+*.log
+CLAUDE.md

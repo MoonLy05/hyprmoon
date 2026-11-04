@@ -10,6 +10,14 @@ smw.setup({
   keep_focused = true,                         -- no te mueve de workspace al recargar
 })
 
+hl.on("monitor.added", function()
+    hl.exec_cmd(vars.scripts .. "/reload.sh")
+end)
+
+hl.on("monitor.removed", function()
+    hl.exec_cmd(vars.scripts .. "/reload.sh ; " .. vars.scripts .. "/rescue_window.sh")
+end)
+
 -- Workspaces del monitor donde estás
 
 for i = 1, smw.get_amount_of_workspaces() do

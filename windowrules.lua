@@ -1,6 +1,7 @@
 ---@module 'hl'
 
 local table_games = require("games")
+local vars = require("vars")
 
 -- ══════════════════════════════════════════
 --  TABLAS (agrega o quita apps aquí)
@@ -63,7 +64,7 @@ local function gamemode(class, title)
         match = { class = class, title = title },
         -- (Desactivado por freezeos en algunos juegos 0.57 Hyprland) immediate = true,
         fullscreen = true,
-        monitor = "desc:ASUSTek COMPUTER INC XG279CNS T7LMQV062777"
+        monitor = vars.monitor_expand
     })
 end
 

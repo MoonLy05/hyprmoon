@@ -1,34 +1,47 @@
 #!/usr/bin/env bash
 
-# Estado inicial
-FILES_CURRENT=$(lsusb | sort)
+# ===== 1. CONFIGURACIÓN =====
+# el ícono de las notificaciones
+ICON="drive-removable-media-usb"
 
-while true; do
-    # Esperar un poco para no saturar el CPU
-    sleep 2
 
-    # Nuevo estado
-    FILES_NEW=$(lsusb | sort)
+# ===== 2. MEMORIA =====
+# dónde recordar qué nombre tiene cada puerto
+declare -A NOMBRES                          # crear el arreglo asociativo
 
-    # 1. DETECTAR CONEXIONES (Líneas que están en NEW pero no en CURRENT)
-    ADDED=$(comm -13 <(echo "$FILES_CURRENT") <(echo "$FILES_NEW"))
-    
-    if [ -n "$ADDED" ]; then
-        # Limpiar el nombre (quitamos el Bus 00X Device 00X: ID...)
-        NAME=$(echo "$ADDED" | cut -d ' ' -f 7-)
-        notify-send -e "Dispositivo Conectado" "  $NAME" -i "drive-removable-media-usb" -u normal
-    fi
+# ===== 3. FUNCIONES =====
+avisar() {
+    local titulo="$1"
+    local nombre="$2"
+    local urgencia="$3"
+    notify-send -e -u "$urgencia" -i "$ICON" "$titulo" "${nombre//_/ }"
+}
 
-    # 2. DETECTAR DESCONEXIONES (Líneas que estaban en CURRENT pero no en NEW)
-    REMOVED=$(comm -23 <(echo "$FILES_CURRENT") <(echo "$FILES_NEW"))
-    
-    if [ -n "$REMOVED" ]; then
-        NAME=$(echo "$REMOVED" | cut -d ' ' -f 7-)
-        notify-send -e "Dispositivo Desconectado" "  $NAME" -i "drive-removable-media-usb" -u low
-    fi
-
-    # Actualizar estado
-    if [ "$FILES_CURRENT" != "$FILES_NEW" ]; then
-        FILES_CURRENT="$FILES_NEW"
-    fi
+# ===== 4. ESCUCHAR EVENTOS =====
+# el udevadm | while read ... con el case adentro
+udevadm monitor --udev --subsystem-match=usb/usb_device --property | while IFS= read -r line; do
+    case "$line" in
+        ACTION=*)
+            ACTION="${line#ACTION=}"
+            ;;
+        DEVPATH=*)
+            DEVPATH="${line#DEVPATH=}"
+            ;;
+        ID_MODEL=*)
+            MODEL="${line#ID_MODEL=}"
+            ;;
+        "")
+            case "$ACTION" in
+                add)
+                    NOMBRES["$DEVPATH"]="$MODEL"
+                    avisar "Dispositivo conectado" "$MODEL" normal
+                    ;;
+                    remove)
+                    avisar "Dispositivo desconectado" "${NOMBRES["$DEVPATH"]:-Dispositivo USB}" low
+                    unset 'NOMBRES[$DEVPATH]'
+                    ;;
+            esac
+            ACTION=""; DEVPATH=""; MODEL=""
+            ;;
+    esac
 done

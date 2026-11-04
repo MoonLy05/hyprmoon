@@ -5,7 +5,6 @@ CAPS_LED_PATH=$(ls /sys/class/leds/ | grep -i "capslock" | head -1)
 NUM_LED_PATH=$(ls /sys/class/leds/ | grep -i "numlock" | head -1)
 
 if [ -z "$CAPS_LED_PATH" ] || [ -z "$NUM_LED_PATH" ]; then
-    echo "Error: No se encontraron LEDs en /sys/class/leds/"
     echo "LEDs disponibles:"
     ls /sys/class/leds/
     exit 1
@@ -27,22 +26,13 @@ send_notification() {
     fi
 }
 
-LAST_CAPS=$(read_led "$CAPS_LED_PATH")
-LAST_NUM=$(read_led "$NUM_LED_PATH")
-
-while true; do
-    CURRENT_CAPS=$(read_led "$CAPS_LED_PATH")
-    CURRENT_NUM=$(read_led "$NUM_LED_PATH")
-
-    if [ "$CURRENT_CAPS" != "$LAST_CAPS" ]; then
-        send_notification "Mayúsculas" "$CURRENT_CAPS" "󰪛"
-        LAST_CAPS=$CURRENT_CAPS
-    fi
-
-    if [ "$CURRENT_NUM" != "$LAST_NUM" ]; then
-        send_notification "Bloqueo Numérico" "$CURRENT_NUM" "󰎠"
-        LAST_NUM=$CURRENT_NUM
-    fi
-
-    sleep 0.5
-done
+case "$1" in
+    caps)
+        sleep 0.1
+        send_notification "Mayúsculas" "$(read_led "$CAPS_LED_PATH")" "󰪛"
+        ;;
+    num)
+        sleep 0.1
+        send_notification "Bloqueo Numérico" "$(read_led "$NUM_LED_PATH")" "󰎠"
+        ;;
+esac

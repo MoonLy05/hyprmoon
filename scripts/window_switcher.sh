@@ -11,7 +11,7 @@ mapfile -t CLASSES < <(echo "$JSON" | jq -r '.[].class')
 mapfile -t TITLES  < <(echo "$JSON" | jq -r '.[].title')
 
 if [ ${#ADDRS[@]} -eq 0 ]; then
-    notify-send -u low "Tabulador de apps" "No hay ventanas abiertas"
+    notify-send -e "Tabulador de apps" "No hay ventanas abiertas"
     exit 0
 fi
 

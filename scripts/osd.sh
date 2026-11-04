@@ -29,9 +29,9 @@ get_bri() {
 
 # Función para enviar notificación
 send_notification() {
-    ICON=$1
-    TEXT=$2
-    VALUE=$3
+    local ICON=$1
+    local TEXT=$2
+    local VALUE=$3
 
     # -h string:x-canonical-private-synchronous:$TAG -> se actualiza en lugar de acumularse
     # -h int:value:$VALUE -> valor para la barra de progreso de SwayNC
@@ -43,19 +43,36 @@ send_notification() {
         "Nivel: $VALUE%"
 }
 
+# icono_volumen NÚMERO → imprime el nombre del ícono según el volumen
+icono_volumen() {
+    local vol="$1"
+    if [ "$vol" -eq 0 ]; then
+        echo "audio-volume-muted"
+    elif [ "$vol" -le 30 ]; then
+        echo "audio-volume-low"
+    elif [ "$vol" -le 70 ]; then
+        echo "audio-volume-medium"
+    else
+        echo "audio-volume-high"
+    fi
+}
+
+mostrar_volumen() {
+    local vol icon
+    vol=$(pamixer --get-volume)
+    icon=$(icono_volumen "$vol")
+    send_notification "$icon" "Volumen" "$vol"
+}
+
 case $1 in
     # --- VOLUMEN ---
     vol_up)
-        pamixer -i 5
-        VOL=$(pamixer --get-volume)
-        if [ "$VOL" -ge 50 ]; then ICON="audio-volume-high"; else ICON="audio-volume-medium"; fi
-        send_notification "$ICON" "Volumen" "$VOL"
+        pamixer -u -i 5
+        mostrar_volumen
         ;;
     vol_down)
         pamixer -d 5
-        VOL=$(pamixer --get-volume)
-        if [ "$VOL" -le 20 ]; then ICON="audio-volume-low"; else ICON="audio-volume-medium"; fi
-        send_notification "$ICON" "Volumen" "$VOL"
+        mostrar_volumen
         ;;
     vol_mute)
         pamixer -t
@@ -63,7 +80,7 @@ case $1 in
         if [ "$MUTE" == "true" ]; then
             notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "audio-volume-muted" "Silencio" "Audio desactivado"
         else
-            notify-send -h string:x-canonical-private-synchronous:"$TAG" -e -i "audio-volume-high" "Sonido" "Audio activado"
+            mostrar_volumen
         fi
         ;;
     mic_mute)

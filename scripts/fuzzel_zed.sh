@@ -4,32 +4,24 @@
 add_icons() {
     while read -r line; do
         [ -z "$line" ] && continue
-        REAL_PATH="${line/#\~/$HOME}"
-        if [ -d "$REAL_PATH" ]; then
-            echo "📁 $line"
-        else
-            echo "📄 $line"
-        fi
+        echo "📁 $line"
     done
 }
 
-# 2. Búsqueda de carpetas y archivos (ajusta las rutas si es necesario)
+# 2. Búsqueda de carpetas
 LISTA_RAW=$(find ~/Documents ~/Projects ~/Downloads ~/.config -maxdepth 3 \
     \( -name ".git" -o -name ".cache" -o -name "node_modules" \) -prune \
-    -o \( -type d -o -name "*.py" -o -name "*.sh" -o -name "*.jsonc" -o -name "*.conf" -o -name ".zshrc" \) -print 2>/dev/null \
+    -o -type d -print \
     | sort | sed "s|^$HOME|~|")
 
 # 3. Menú Principal
 MENU=" Crear nuevo proyecto...\n$(echo "$LISTA_RAW" | add_icons)"
 
-TARGET_CON_ICONO=$(echo -e "$MENU" | fuzzel -d -i -p "󰅴 Abrir:")
+TARGET_CON_ICONO=$(echo -e "$MENU" | fuzzel -d -i -p "󰅴 Abrir Carpeta:")
 
 # Salir si se presiona ESC
 [ -z "$TARGET_CON_ICONO" ] && exit 0
 
-# --- EL TRUCO DE INGENIERÍA: LIMPIAR EL ICONO ---
-# Usamos 'cut' para eliminar el emoji y el espacio (los primeros 3 caracteres)
-# 📁 + espacio + ruta = 3 caracteres iniciales
 TARGET_LIMPIO=$(echo "$TARGET_CON_ICONO" | cut -d' ' -f2-)
 REAL_PATH="${TARGET_LIMPIO/#\~/$HOME}"
 
@@ -37,7 +29,16 @@ REAL_PATH="${TARGET_LIMPIO/#\~/$HOME}"
 if [ "$TARGET_CON_ICONO" = " Crear nuevo proyecto..." ]; then
     NEW_DIR=$(fuzzel -d -i --prompt-only "📁 Nombre de carpeta:")
     if [ -n "$NEW_DIR" ]; then
-        REAL_NEW="${NEW_DIR/#\~/$HOME}"
+        case "$NEW_DIR" in
+            /*|"~"*)
+                # Es una ruta: se respeta, cambiando la ~ por tu home
+                REAL_NEW="${NEW_DIR/#\~/$HOME}"
+                ;;
+            *)
+                # Es solo un nombre: va dentro de Projects
+                REAL_NEW="$HOME/Projects/$NEW_DIR"
+                ;;
+        esac
         mkdir -p "$REAL_NEW"
         zed -n "$REAL_NEW"
     fi
@@ -48,6 +49,6 @@ else
         notify-send "IDE ZED" "Abriendo: $TARGET_LIMPIO" -i zed -t 1500
         zed -n "$REAL_PATH"
     else
-        notify-send "Error" "No se encontró: $TARGET_LIMPIO" -i error
+        notify-send -u critical "Error" "No se encontró: $TARGET_LIMPIO" -i error
     fi
 fi
