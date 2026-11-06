@@ -17,13 +17,12 @@ PanelWindow {
         right: true
     }
     
-    implicitHeight: Sizes.verticalPillWidth
+    implicitHeight: Sizes.topBarHeight
     color: "transparent"
 
     Row {
-        spacing: Sizes.gap
+        spacing: Sizes.gap 
         anchors.left: parent.left
-        anchors.leftMargin: Sizes.gap + Sizes.leftBarWidth
         anchors.verticalCenter: parent.verticalCenter
         
         WindowTitle{
@@ -39,6 +38,7 @@ PanelWindow {
     }
 
     Clock {
+        anchors.centerIn: parent
     }
 
     Row {

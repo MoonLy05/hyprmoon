@@ -9,8 +9,8 @@ add_icons() {
 }
 
 # 2. Búsqueda de carpetas
-LISTA_RAW=$(find ~/Documents ~/Projects ~/Downloads ~/.config -maxdepth 3 \
-    \( -name ".git" -o -name ".cache" -o -name "node_modules" \) -prune \
+LISTA_RAW=$(find ~ ~/.config -mindepth 1 -maxdepth 2 \
+    \( -name ".*" -o -name "node_modules" -o -name "*.bak" \) -prune \
     -o -type d -print \
     | sort | sed "s|^$HOME|~|")
 

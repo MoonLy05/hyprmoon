@@ -7,15 +7,14 @@ import qs.modules
 import qs.bars
 
 
-ShellRoot {
+Variants {
+    model: Quickshell.screens
 
-    Variants {
-        model: Quickshell.screens
-        TopBar {}
-    }
+    Scope {
+        id: scope
+        required property var modelData
 
-    Variants {
-        model: Quickshell.screens
-        LeftBar {}
+        LeftBar { modelData: scope.modelData }
+        TopBar { modelData: scope.modelData }
     }
 }

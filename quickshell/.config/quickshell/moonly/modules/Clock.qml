@@ -4,28 +4,27 @@ import qs.components
 import qs.theme
 
 Pill {
-    
     clickable: true
-    
+    onClicked: Quickshell.execDetached(["gnome-calendar"])
+    tooltipText: clock.date.toLocaleString(Qt.locale("es_MX"), "dddd d 'de' MMMM 'de' yyyy")
+
     SystemClock {
         id: clock
-        precision: SystemClock.Seconds
+        precision: SystemClock.Minutes
     }
-    
-    anchors.centerIn: parent
-    onClicked: Quickshell.execDetached(["gnome-calendar"])
 
-    Column {
+    Row {
+        spacing: Sizes.gap
 
         PillText {
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
             text: Qt.formatDateTime(clock.date, "HH:mm")
             font.bold: true
         }
 
         PillText {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: clock.date.toLocaleString(Qt.locale("es_MX"), "ddd d'/'MMMM'/'yyyy")
+            anchors.verticalCenter: parent.verticalCenter
+            text: clock.date.toLocaleString(Qt.locale("es_MX"), "ddd d MMM")
             opacity: 0.8
             font.pixelSize: Fonts.small
         }

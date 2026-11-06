@@ -18,7 +18,7 @@ Rectangle {
     clip: true
 
     implicitWidth: box.implicitWidth + padding * 2
-    implicitHeight: Math.max(30, box.implicitHeight + verticalPadding * 2)
+    implicitHeight: Math.max(Sizes.horizontalPillHeight, box.implicitHeight + verticalPadding * 2)
     radius: Math.min(width, height) / 2
     color: ColorsMatugen.surfaceContainer
 
