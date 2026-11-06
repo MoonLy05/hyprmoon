@@ -1,0 +1,1 @@
+PLAYER_APP="spotify,brave,sidra"

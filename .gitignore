@@ -1,9 +1,11 @@
 ## Folders
 
 .vscode/
+/hypr/.config/hypr/plugins/split-monitor-workspaces/
 
 #Files
-
-style/colors-matugen.lua
 *.log
+.qmlls.ini
 CLAUDE.md
+colors-matugen.*
+ColorsMatugen.qml

@@ -1,0 +1,224 @@
+/* ============================================
+   ANDROID 15 STYLE FOR SWAYNC
+   Compatible con GTK (sin flex, gap, etc.)
+   ============================================ */
+
+@import url("colors-matugen.css");
+
+/* ============================================
+   PANEL CENTRAL (Quick Settings)
+   ============================================ */
+.control-center {
+    background: alpha(@bg_dark, 0.92);
+    border-radius: 28px 0 0 28px;
+    border: none;
+    padding: 20px 16px;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   NOTIFICACIONES (Burbujas tipo Android)
+   ============================================ */
+.notification {
+    background: alpha(@surface, 0.85);
+    border-radius: 20px;
+    margin: 8px 12px;
+    padding: 14px 18px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    min-width: 280px;
+}
+
+.notification:hover {
+    background: alpha(@bg_light, 0.9);
+}
+
+/* Borde izquierdo tipo Android (opcional) */
+.notification.critical {
+    border-left: 4px solid @error;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.notification.normal {
+    border-left: 4px solid @accent;
+    border-radius: 20px 20px 20px 20px;
+}
+
+/* Cabecera de notificación */
+.notification-header {
+    margin-bottom: 8px;
+}
+
+/* Título de notificación */
+.notification-title {
+    color: @accent;
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+/* Cuerpo del mensaje */
+.notification-body {
+    color: @text_primary;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* Ícono de la app */
+.notification-icon {
+    margin-right: 14px;
+    -gtk-icon-size: 28px;
+}
+
+/* Botón de cerrar */
+.close-button {
+    background: alpha(@bg_light, 0.6);
+    border-radius: 16px;
+    padding: 4px 10px;
+    color: @text_secondary;
+}
+
+.close-button:hover {
+    background: @error;
+    color: @bg_dark;
+}
+
+/* ============================================
+   WIDGETS (Título, DnD)
+   ============================================ */
+
+/* Widget del título */
+.widget-title {
+    background: alpha(@surface, 0.5);
+    border-radius: 24px;
+    margin: 8px 8px 16px 8px;
+    padding: 12px 16px;
+}
+
+.widget-title > label {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: @text_primary;
+}
+
+/* Botón "Borrar todo" estilo Android */
+.clear-all-button {
+    background: alpha(@accent, 0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    color: @accent;
+    font-size: 0.85rem;
+}
+
+.clear-all-button:hover {
+    background: @accent;
+    color: @bg_dark;
+}
+
+/* Widget No Molestar */
+.widget-dnd {
+    background: alpha(@surface, 0.5);
+    border-radius: 24px;
+    margin: 8px 8px 16px 8px;
+    padding: 12px 16px;
+}
+
+.widget-dnd > label {
+    color: @text_primary;
+    font-weight: 500;
+}
+
+/* Switch de No Molestar */
+.switch {
+    background: alpha(@bg_light, 0.8);
+    border-radius: 20px;
+    padding: 6px 12px;
+}
+
+.switch:checked {
+    background: @accent;
+}
+
+/* ============================================
+   BOTONES RÁPIDOS (Android Quick Settings)
+   ============================================ */
+.widget-buttons-grid {
+    background: alpha(@surface, 0.5);
+    border-radius: 24px;
+    margin: 8px 8px;
+    padding: 12px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+    background: alpha(@bg_light, 0.6);
+    border-radius: 20px;
+    color: @text_primary;
+    margin: 6px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:checked {
+    background: @accent;
+    color: @bg_dark;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+    background: @accent;
+    color: @bg_dark;
+}
+
+/* ============================================
+   VOLUMEN Y BRILLO (Sliders estilo Android)
+   ============================================ */
+.widget-volume, .widget-backlight {
+    background: alpha(@surface, 0.5);
+    border-radius: 24px;
+    margin: 8px 8px;
+    padding: 12px 16px;
+}
+
+/* Etiqueta del slider */
+.widget-volume > label,
+.widget-backlight > label {
+    font-size: 1.2rem;
+    margin-right: 12px;
+    color: @text_secondary;
+}
+
+/* Barra del slider */
+scale {
+    min-height: 6px;
+}
+
+scale trough {
+    background: alpha(@bg_light, 0.8);
+    border-radius: 12px;
+    min-height: 6px;
+}
+
+scale highlight {
+    background: @accent;
+    border-radius: 12px;
+    min-height: 6px;
+}
+
+/* El botón/círculo del slider (thumb) */
+scale slider {
+    background: @accent;
+    border-radius: 12px;
+    min-height: 18px;
+    min-width: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+scale slider:hover {
+    background: @accent_hover;
+}
+
+/* ============================================
+   BORDE DE VENTANA (Opcional)
+   ============================================ */
+.control-center > * {
+    border-radius: 28px;
+}
