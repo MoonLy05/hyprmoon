@@ -7,34 +7,26 @@ import qs.theme
 Pill {
     id: root
 
-    function alternarMute(destino) {
-        destino.audio.muted = !destino.audio.muted
-    }
-    
-    function cambiarVolumen(destino, wheel) {
-        const paso = wheel.angleDelta.y > 0 ? 0.05 : -0.05
-        destino.audio.volume = Math.max(0, Math.min(1, destino.audio.volume + paso))
-    }
-
+    // ─── Datos: bocinas (salida) ───
     readonly property var sink: Pipewire.defaultAudioSink
-    readonly property bool isMuted: sink && sink.audio.muted
+    readonly property bool speakerMuted: sink && sink.audio.muted
     readonly property int speakerVolume: sink ? Math.round(sink.audio.volume * 100) : 0
-    readonly property bool speakerOff: isMuted || speakerVolume === 0
-    
-    readonly property var source: Pipewire.defaultAudioSource
-    readonly property bool isMutedMic: source && source.audio.muted
-    readonly property int volumeMic: source ? Math.round(source.audio.volume * 100) : 0
-    readonly property bool micOff: isMutedMic || volumeMic === 0
+    readonly property bool speakerOff: speakerMuted || speakerVolume === 0
 
-    implicitWidth: Sizes.verticalPillWidth
-    verticalPadding: Sizes.verticalPadding  
-    
+    // ─── Datos: micrófono (entrada) ───
+    readonly property var source: Pipewire.defaultAudioSource
+    readonly property bool micMuted: source && source.audio.muted
+    readonly property int micVolume: source ? Math.round(source.audio.volume * 100) : 0
+    readonly property bool micOff: micMuted || micVolume === 0
+
+    // PipeWire solo manda datos de los objetos que alguien vigila
     PwObjectTracker {
         objects: [root.sink, root.source]
     }
 
-    readonly property string iconVolume: {
-        if (isMuted || speakerOff)
+    // ─── Íconos según el estado ───
+    readonly property string speakerIcon: {
+        if (speakerOff)
             return "󰝟"
         else if (speakerVolume <= 30)
             return "󰕿"
@@ -44,40 +36,66 @@ Pill {
             return "󰕾"
     }
 
-    readonly property string iconMic: {
-        if (isMutedMic || micOff)
-            return "󰍭"
-        else
-            return "󰍬"
+    readonly property string micIcon: micOff ? "󰍭" : "󰍬"
+
+    // ─── Apariencia de la pastilla ───
+    implicitWidth: Sizes.verticalPillWidth
+    verticalPadding: Sizes.verticalPadding
+    tooltipEdge: Edges.Right
+    tooltipText: sink && source
+                 ? "Salida: " + sink.description + "\nEntrada: " + source.description
+                 : ""
+
+    // ─── Acciones ───
+    function alternarMute(destino) {
+        destino.audio.muted = !destino.audio.muted
     }
 
+    function cambiarVolumen(destino, wheel) {
+        const paso = wheel.angleDelta.y > 0 ? 0.05 : -0.05
+        destino.audio.volume = Math.max(0, Math.min(1, destino.audio.volume + paso))
+    }
+
+    // ─── Contenido: mic arriba, bocinas abajo ───
     Column {
-        spacing: 15
-        
+        spacing: Sizes.gapItems
+
         VerticalText {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: micOff ? iconMic : iconMic + " " + volumeMic + "%"
+            text: micOff ? micIcon : micIcon + " " + micVolume + "%"
             fontSize: Fonts.small
             color: micOff ? ColorsMatugen.inactive : ColorsMatugen.textOnSurface
 
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: root.alternarMute(root.source)
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: (mouse) => {
+                    if (mouse.button === Qt.RightButton)
+                        Quickshell.execDetached(["pavucontrol", "--tab=4"])
+                    else
+                        root.alternarMute(root.source)
+                }
                 onWheel: (wheel) => root.cambiarVolumen(root.source, wheel)
             }
         }
 
         VerticalText {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: speakerOff ? iconVolume : iconVolume + " " + speakerVolume + "%"
+            text: speakerOff ? speakerIcon : speakerIcon + " " + speakerVolume + "%"
             fontSize: Fonts.small
             color: speakerOff ? ColorsMatugen.inactive : ColorsMatugen.textOnSurface
 
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: root.alternarMute(root.sink)
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: (mouse) => {
+                    if (mouse.button === Qt.RightButton)
+                        Quickshell.execDetached(["pavucontrol", "--tab=3"])
+                    else
+                        root.alternarMute(root.sink)
+                }
                 onWheel: (wheel) => root.cambiarVolumen(root.sink, wheel)
             }
         }

@@ -8,6 +8,12 @@ import Quickshell.Io
 Pill {
     id: root
 
+    readonly property string script: Quickshell.env("HOME") + "/.config/hypr/scripts/kb_change.sh"
+
+    clickable: true
+    onClicked: Quickshell.execDetached([script])
+    tooltipText: root.layout + "\n" + (root.capsLock ? "Mayúsculas activadas" : "Mayúsculas desactivadas")
+
     property string layout: ""
     property bool capsLock: false
     readonly property string layoutLabel: {

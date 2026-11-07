@@ -14,7 +14,7 @@ Pill {
     }
 
     Row {
-        spacing: Sizes.gap
+        spacing: Sizes.gapText
 
         PillText {
             anchors.verticalCenter: parent.verticalCenter

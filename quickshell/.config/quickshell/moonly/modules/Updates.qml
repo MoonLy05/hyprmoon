@@ -51,7 +51,7 @@ Pill {
     onClicked: updateProc.running = true
 
     Column {
-        spacing: 2
+        spacing: Sizes.gapText
 
         PillText {
             anchors.horizontalCenter: parent.horizontalCenter

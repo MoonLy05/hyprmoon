@@ -2,16 +2,26 @@ import QtQuick
 import Quickshell.Io
 import qs.components
 import qs.theme
+import Quickshell
 
 Pill {
     id: root
 
+    clickable: true
+
+    onClicked: Quickshell.execDetached(["xdg-open", "https://wttr.in"])
+
     property string weather: ""
     property string temperature: ""
-
+    property string location: ""
+    property string sensation: ""
+    property string humidity: ""
+    property string wind: ""
+    tooltipText: "Ubicación: " + root.location + "\nTemperatura: " + root.temperature + "\nSensación: " + root.sensation + "\nHumedad: " + root.humidity + "\nViento: " + root.wind
+    
     Process {
         id: weatherProc
-        command: ["curl", "-s", "wttr.in/?format=%t|%C&m"]
+        command: ["curl", "-s", "wttr.in/?format=%t|%C|%f|%h|%w|%l&m"]
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
@@ -24,6 +34,10 @@ Pill {
                 const partes = texto.split("|")
                 root.temperature = partes[0].replace("+", "")
                 root.weather = partes[1]
+                root.sensation = partes[2].replace("+", "")
+                root.humidity = partes[3]
+                root.wind = partes[4]
+                root.location = partes[5]
             }
         }
     }
@@ -36,7 +50,7 @@ Pill {
     }
 
     Row {
-        spacing: 6
+        spacing: Sizes.gapText
 
         PillText {
             text: root.temperature

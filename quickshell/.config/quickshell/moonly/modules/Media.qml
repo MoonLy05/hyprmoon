@@ -5,6 +5,18 @@ import qs.theme
 
 Pill {
     id: root
+    clickable: true
+
+    onClicked: player.togglePlaying()
+
+    scrollable: true
+
+    onScrolled: (wheel) => {
+        if (wheel.angleDelta.y > 0)
+            player.next()
+        else
+            player.previous()
+    }
     
     readonly property var prioridad: ["Sidra", "Spotify", "Brave"]
     readonly property var player: {
@@ -21,16 +33,22 @@ Pill {
                         return p
                     }
                 }
-            }
-        
+            } 
             return null
     }
 
+    tooltipText: player ? "Reproductor: " + player.identity
+                        + "\nTítulo: " + player.trackTitle
+                        + "\nArtista: " + player.trackArtist
+                        + "\nÁlbum: " + player.trackAlbum
+                        : ""
+
     visible: player !== null
 
+    readonly property string iconPlayer: player && player.isPlaying ? "" : ""
+
     PillText {
-        text: player ? " " + player.trackArtist + " — " + player.trackTitle : ""
-        width: Math.min(implicitWidth, 250)
+        text: player ? iconPlayer + " " + player.trackArtist + " — " + player.trackTitle : ""        
         font.pixelSize: Fonts.small
     }
 }

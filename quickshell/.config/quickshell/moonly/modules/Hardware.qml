@@ -1,17 +1,27 @@
 import QtQuick
 import Quickshell.Io
+import Quickshell
 import qs.components
 import qs.theme
 
 Pill {
     id: root
 
-    // ¿readonly o no?
+    clickable: true
+
+    onClicked: Quickshell.execDetached(["kitty", "--class", "kitty_float", "--title", "Monitor del sistema", "-e", "btop"])
+
+    property int totalMem: 0
+    property int availableMem: 0
     property int ram: 0
     property int cpu: 0
+    readonly property real ramUse: (totalMem - availableMem) / 1024 / 1024
+    readonly property real ramTotal: totalMem / 1024 / 1024
     property real prevTotal: 0
     property real prevIdle: 0
 
+    tooltipText: "RAM: " + ramUse.toFixed(1) + " / " + ramTotal.toFixed(1) + " GB\nCPU: " + cpu + "%"
+    
     Process {
         id: memProc
         command: ["cat", "/proc/meminfo"]
@@ -21,25 +31,22 @@ Pill {
                 // 1. Parte this.text en 
                 const lines = this.text.split("\n")
 
-                let totalMem = 0
-                let availableMem = 0
-
                 // 2. Recorre los renglones y encuentra los dos que necesitas
                 for (const line of lines) {
                     if (line.startsWith("MemTotal")) {
                         const partes = line.split(/\s+/)
-                        totalMem = parseInt(partes[1])
+                        root.totalMem = parseInt(partes[1])
                     } else if (line.startsWith("MemAvailable")) {
                         const partes = line.split(/\s+/)
-                        availableMem = parseInt(partes[1])
+                        root.availableMem = parseInt(partes[1])
                     }
                 }
                 // 3. Saca el número de cada uno
-                const usedMem = totalMem - availableMem
+                const usedMem = root.totalMem - root.availableMem
                 
                 // 4. Calcula el porcentaje y guárdalo en root.ram
                 
-                root.ram = Math.round((usedMem / totalMem) * 100)
+                root.ram = Math.round((usedMem / root.totalMem) * 100)
             }
         }
     }
@@ -88,7 +95,7 @@ Pill {
 
     Row {
 
-        spacing: 10
+        spacing: Sizes.gapItems
         
         PillText {
             text: " " + root.ram + "%"

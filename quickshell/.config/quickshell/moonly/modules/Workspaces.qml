@@ -19,7 +19,7 @@ Column {
         verticalPadding: Sizes.verticalPadding                     
     
         Column {
-            spacing: 5
+            spacing: Sizes.gapItems
     
             Repeater {
                 model: Sizes.workspacesPerMonitor

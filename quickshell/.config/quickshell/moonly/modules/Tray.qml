@@ -12,7 +12,7 @@ Pill {
     verticalPadding: Sizes.verticalPadding
 
     Column {
-        spacing: 8
+        spacing: Sizes.gapItems
 
         Repeater{
             model: SystemTray.items

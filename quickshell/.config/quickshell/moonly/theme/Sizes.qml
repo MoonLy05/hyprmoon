@@ -9,5 +9,7 @@ Singleton {
     readonly property int verticalPillWidth: 34
     readonly property int verticalPadding: 12
     readonly property int gap: 5
+    readonly property int gapText: 5
+    readonly property int gapItems: 10
     readonly property int workspacesPerMonitor: 5
 }
