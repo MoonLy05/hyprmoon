@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell.Io
 import Quickshell
 import qs.components
 import qs.theme
@@ -12,18 +11,18 @@ Pill {
 
     onClicked: Quickshell.execDetached(["kitty", "--class", "kitty_float", "--title", "Monitor del sistema", "-e", "btop"])
 
-    tooltipText: "RAM: " + HardwareServices.ramUse.toFixed(1) + " / " + HardwareServices.ramTotal.toFixed(1) + " GB\nCPU: " + HardwareServices.cpu + "%\n" + "GPU:" + HardwareServices.gpuName
+    tooltipText: "RAM: " + HardwareService.ramUse.toFixed(1) + " / " + HardwareService.ramTotal.toFixed(1) + " GB\nCPU: " + HardwareService.cpu + "%\n" + "GPU: " + HardwareService.gpuName + "\nM.2: " + HardwareService.storageModel + "\nStorage: " + HardwareService.storageSizeUse + " / " + HardwareService.storageSizeMax + " (" + HardwareService.storageSizePercentage + ")"
 
     Row {
 
         spacing: Sizes.gapItems
         
         PillText {
-            text: " " + HardwareServices.ram + "%"
+            text: " " + HardwareService.ram + "%"
         }
     
         PillText {
-            text: " " + HardwareServices.cpu + "%"
+            text: " " + HardwareService.cpu + "%"
         }
     }    
 }

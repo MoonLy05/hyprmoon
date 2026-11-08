@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell.Io
 import qs.components
 import qs.theme
 import Quickshell

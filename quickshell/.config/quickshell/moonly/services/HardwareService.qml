@@ -20,6 +20,47 @@ Singleton {
     property string gpuName: ""
     property int gpuVram: 0
 
+    property string storageModel: ""
+    property string storageSizeUse: ""
+    property string storageSizeMax: ""
+    property string storageSizePercentage: ""
+
+    Process {
+        id: storageModelProc
+        command: ["lsblk", "-dno", "MODEL", "/dev/nvme0n1"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const texto = this.text.trim()
+            
+                root.storageModel = texto
+            }
+        }
+    }
+
+    Process {
+        id: storageSizeProc
+        command: ["sh", "-c", "df -h --output=used,size,pcent / | tail -1"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const texto = this.text.trim()
+            
+                const partes = texto.split(/\s+/)
+                root.storageSizeUse = partes[0]
+                root.storageSizeMax = partes[1]
+                root.storageSizePercentage = partes[2]
+            }
+        }
+    }
+
+    Timer {
+        interval: 60000
+        running: true
+        repeat: true
+        onTriggered: storageSizeProc.running = true
+    }
+
     Process {
         id: gpuProc
         command: [root.script]
@@ -32,7 +73,7 @@ Singleton {
                     return
             
                 const partes = texto.split("|")
-                root.gpuName = partes[0].replace("NVIDIA GeForce", "").replace("Laptop GPU","")
+                root.gpuName = partes[0].replace("NVIDIA GeForce ", "").replace("Laptop GPU","").trim()
                 root.gpuVram = parseInt(partes[1]) || 0
             }
         }
