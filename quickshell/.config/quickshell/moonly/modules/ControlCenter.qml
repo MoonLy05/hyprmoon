@@ -32,6 +32,7 @@ Pill {
         open: root.open
         panelWidth: layout.implicitWidth + (Sizes.gapItems * 2)
         panelHeight: layout.implicitHeight + (Sizes.gapItems * 2)
+        onCloseRequested: root.open = false
 
         Row{
             id: layout
@@ -62,7 +63,7 @@ Pill {
 
                     PillText {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: root.sink ? Math.round(root.sink.audio.volume * 100) : 0 + "%"
+                        text: (root.sink ? Math.round(root.sink.audio.volume * 100) : 0) + "%"
                     }
                     
                 } 

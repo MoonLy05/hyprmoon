@@ -9,6 +9,7 @@ PopupWindow {
     property bool open: false
     property int panelWidth: 500
     property int panelHeight: 500
+    signal closeRequested()
 
     default property alias content: bg.data
 
@@ -27,6 +28,9 @@ PopupWindow {
         anchors.topMargin: Sizes.gap
         radius: Sizes.panelRadius
         color: ColorsMatugen.surfaceContainer
+
+        focus: true
+        Keys.onEscapePressed: root.closeRequested()
 
         opacity: root.open ? 1 : 0                        
         scale: root.open ? 1 : 0.9                       

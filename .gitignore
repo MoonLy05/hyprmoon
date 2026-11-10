@@ -6,6 +6,5 @@
 #Files
 *.log
 .qmlls.ini
-CLAUDE.md
 colors-matugen.*
 ColorsMatugen.qml

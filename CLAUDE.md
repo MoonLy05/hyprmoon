@@ -1,0 +1,4 @@
+- Estoy aprendiendo: dame pistas y preguntas guía, no código terminado.
+- No apliques cambios sin preguntarme primero; prefiero hacerlos yo.
+- Los comandos de terminal, en sintaxis de fish.
+- Al revisar algo, ordena los problemas por importancia.
