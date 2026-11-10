@@ -7,10 +7,9 @@ Rectangle {
 
     default property alias content: box.data
 
-    readonly property bool showTip: mouse.containsMouse && root.tooltipText !== ""   // junto a las propiedades
+    readonly property bool showTip: mouse.containsMouse && root.tooltipText !== ""  
 
-   
-    property int verticalPadding: 5
+    property int verticalPadding: Sizes.gap
     property string tooltipText: ""
     property bool scrollable: false
     signal clicked(var mouse)
@@ -26,11 +25,11 @@ Rectangle {
     color: ColorsMatugen.surfaceContainer
 
     Behavior on implicitWidth {
-        NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+        NumberAnimation { duration: Anim.normal; easing.type: Anim.easing }
     }
 
     Behavior on implicitHeight {
-        NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+        NumberAnimation { duration: Anim.normal; easing.type: Anim.easing }
     }
     
     MouseArea {
@@ -60,7 +59,7 @@ Rectangle {
             opacity: root.showTip ? 1 : 0              // NUEVO
     
             Behavior on opacity {                      // NUEVO
-                NumberAnimation { duration: 300 }
+                NumberAnimation { duration: Anim.normal }
             }
     
             PillText {
@@ -72,7 +71,6 @@ Rectangle {
         }
     }
 
-    // Caja que se ajusta a lo que tenga dentro
     Item {
         id: box
         anchors.centerIn: parent

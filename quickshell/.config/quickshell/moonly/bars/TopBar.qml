@@ -57,6 +57,10 @@ PanelWindow {
 
         Battery {
         }
+
+        ControlCenter{
+            
+        }
         
     }
 

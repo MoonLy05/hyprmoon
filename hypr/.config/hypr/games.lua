@@ -6,7 +6,8 @@ local table_games = {
     { class = "^(hl2_linux)$",        title = "Left 4 Dead 2" },
     { class = "^(steam_proton)$",     title = "Rocket League" },
     { class = "^(steam_app_3404260)$" },
-    {class = "^(steam_app_1245620)$"}
+    { class = "^(steam_app_1245620)$" },
+    { class = "^(steam_app_1091500)$" }
 }
 
 return table_games

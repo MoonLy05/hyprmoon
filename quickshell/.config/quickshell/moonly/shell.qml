@@ -1,4 +1,4 @@
-//@ pragma IconTheme Reversal
+//@ pragma IconTheme Papirus-Dark
 //@ pragma UseQApplication
 import QtQuick
 import Quickshell

@@ -37,7 +37,7 @@ Column {
                     color: active ? ColorsMatugen.primary : "transparent"                    
     
                     Behavior on color {
-                        ColorAnimation { duration: 250 }
+                        ColorAnimation { duration: Anim.normal }
                     }
 
                     Behavior on height {

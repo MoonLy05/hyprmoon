@@ -110,3 +110,10 @@ hl.config({
         orientation = "left"
     },
 })
+
+hl.config({
+    render = {
+        direct_scanout = 1,
+        cm_auto_hdr = 0
+    },
+})

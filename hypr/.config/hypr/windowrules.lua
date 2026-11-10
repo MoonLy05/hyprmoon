@@ -27,10 +27,11 @@ local table_float = {
     { class = "^(brave-browser)$", title = "(Inicia sesión: Cuentas de Google - Brave)", size = { 600, 400 } },
     { class = "^(brave-browser)$", title = "(Sign in to Your Epic Games account | Epic Games - Brave)", size = { 600, 400 } },
     { class = "^(lunarclient)$",                              title = "(Mission Control - Lunar Client)",                          size = { 600, 400 } },
-    { class = "^(org.xodusgaming.nexus)", size = {800, 600}},
+    { class = "^(org.xodusgaming.nexus)",                     size = { 800, 600 } },
+    { class = "^(thunar)$", title = '^(Rename ".+")$', size = {600, 400} },
 
     -- Steam: todas sus ventanas flotan (la principal se tilea en table_noFloat)
-    { class = "^(steam)$" },
+    { class = "^(steam)$", title = "^(.+)$" },
     { title = "^(Friends List)$", size = { "(monitor_w*0.2)", "(monitor_h*0.7)" } },
 }
 

@@ -10,6 +10,6 @@ Text {
     elide: Text.ElideRight
     width: Math.min(implicitWidth, maxWidth)
     Behavior on color {
-        ColorAnimation { duration: 250 }
+        ColorAnimation { duration: Anim.normal }
     }
 }

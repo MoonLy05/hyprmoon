@@ -8,6 +8,7 @@ import qs.services
 Pill {
 
     clickable: true
+    onClicked: Quickshell.execDetached([UpdatesService.actualizar()])
     id: root
     implicitWidth: Sizes.verticalPillWidth
     verticalPadding: Sizes.verticalPadding                     

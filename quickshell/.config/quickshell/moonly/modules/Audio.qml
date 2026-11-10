@@ -52,8 +52,12 @@ Pill {
     }
 
     function cambiarVolumen(destino, wheel) {
-        const paso = wheel.angleDelta.y > 0 ? 0.05 : -0.05
-        destino.audio.volume = Math.max(0, Math.min(1, destino.audio.volume + paso))
+        const paso = 0.05
+        const level = destino.audio.volume / paso
+        const target = wheel.angleDelta.y > 0
+            ? Math.floor(level + 0.001) + 1
+            : Math.ceil(level - 0.001) - 1
+        destino.audio.volume = Math.max(0, Math.min(1, target * paso))
     }
 
     // ─── Contenido: mic arriba, bocinas abajo ───
